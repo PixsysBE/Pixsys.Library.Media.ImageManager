@@ -5,13 +5,14 @@
     <title>Pixsys.Library.Media.ImageManager</title>
     <description>This manager will save and transform your images as a Fluent API, using SixLabors.ImageSharp library</description>
     <authors>Sylvain Signore</authors>
-    <version>0.0.0.0</version>
+    <version>0.0.2.0</version>
     <readme>README.md</readme>
     <projectUrl>https://github.com/PixsysBE/Pixsys.Library.Media.ImageManager</projectUrl>
     <dependencies>
     <group targetFramework="net8.0" >
       <dependency id="Pixsys.Library.Media.Common" version="1.0.0" />
       <dependency id="Pixsys.Library.Common" version="1.0.0" />
+      <dependency id="SixLabors.ImageSharp" version="3.1.5" />
     </group>
     </dependencies>
   </metadata>
