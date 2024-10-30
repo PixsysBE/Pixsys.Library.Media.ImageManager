@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Pixsys.Library.Media.ImageManager</id>
+    <title>Pixsys.Library.Media.ImageManager</title>
+    <description>This manager will save and transform your images as a Fluent API, using SixLabors.ImageSharp library</description>
+    <authors>Sylvain Signore</authors>
+    <version>0.0.0.0</version>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/PixsysBE/Pixsys.Library.Media.ImageManager</projectUrl>
+    <dependencies>
+    <group targetFramework="net8.0" >
+      <dependency id="Pixsys.Library.Media.Common" version="1.0.0" />
+      <dependency id="Pixsys.Library.Common" version="1.0.0" />
+    </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\**\*.dll" target="lib" />
+    <file src="bin\Release\**\*.xml" target="lib" />
+    <file src="..\..\..\README.md" target="README.md" />
+  </files>
+</package>

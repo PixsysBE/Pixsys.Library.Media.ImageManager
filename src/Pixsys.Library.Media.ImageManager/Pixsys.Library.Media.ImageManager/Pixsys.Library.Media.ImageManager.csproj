@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CakeRelease" Version="2.1.2" />
+    <PackageReference Include="Pixsys.Library.Common" Version="1.0.0" />
+    <PackageReference Include="Pixsys.Library.Media.Common" Version="1.0.0" />
+    <PackageReference Include="Pixsys.Library.StyleCopAnalyzers" Version="1.2.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="C:\Users\Sylvain\.nuget\packages\pixsys.library.stylecopanalyzers\1.2.0\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+</Project>
