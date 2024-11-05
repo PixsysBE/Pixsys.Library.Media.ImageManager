@@ -4,13 +4,16 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using Microsoft.AspNetCore.Mvc;
 using Pixsys.Library.Common.Extensions;
 using Pixsys.Library.Media.Common.Enums;
 using Pixsys.Library.Media.Common.Extensions;
 using Pixsys.Library.Media.Common.Helpers;
 using Pixsys.Library.Media.Common.Models;
+using Pixsys.Library.Media.ImageManager.Constants;
 using Pixsys.Library.Media.ImageManager.Interfaces;
 using Pixsys.Library.Media.ImageManager.Models;
+using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Processing;
 using System.Text;
 
@@ -66,153 +69,146 @@ namespace Pixsys.Library.Media.ImageManager
         /// <inheritdoc />
         public IImageManagerOperations BlackWhite()
         {
-            return AddAction(x => x.BlackWhite(), "_bw");
+            return AddAction(x => x.BlackWhite(), ImageManagerOperationSuffixes.BlackWhite);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations GaussianBlur()
         {
-            return AddAction(x => x.GaussianBlur(), "_gb");
+            return AddAction(x => x.GaussianBlur(), ImageManagerOperationSuffixes.GaussianBlur);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Kodachrome()
         {
-            return AddAction(x => x.Kodachrome(), "_kc");
+            return AddAction(x => x.Kodachrome(), ImageManagerOperationSuffixes.Kodachrome);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations AutoOrient()
         {
-            return AddAction(x => x.AutoOrient(), "_ao");
+            return AddAction(x => x.AutoOrient(), ImageManagerOperationSuffixes.AutoOrient);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations BokehBlur()
         {
-            return AddAction(x => x.BokehBlur(), "_bkb");
+            return AddAction(x => x.BokehBlur(), ImageManagerOperationSuffixes.BokehBlur);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations BoxBlur()
         {
-            return AddAction(x => x.BoxBlur(), "_bxb");
+            return AddAction(x => x.BoxBlur(), ImageManagerOperationSuffixes.BoxBlur);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Brightness(float amount)
         {
-            return AddAction(x => x.Brightness(amount), $"_br{amount}");
+            return AddAction(x => x.Brightness(amount), $"{ImageManagerOperationSuffixes.Brightness}{amount}");
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Crop(int width, int height)
         {
-            return AddAction(x => x.Crop(width, height), $"_cr{width}_{height}");
+            return AddAction(x => x.Crop(width, height), $"{ImageManagerOperationSuffixes.Crop}{width}_{height}");
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Flip(FlipMode mode)
         {
-            return AddAction(x => x.Flip(mode), "_fl");
+            return AddAction(x => x.Flip(mode), ImageManagerOperationSuffixes.Flip);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Glow()
         {
-            return AddAction(x => x.Glow(), "_gl");
+            return AddAction(x => x.Glow(), ImageManagerOperationSuffixes.Glow);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Grayscale()
         {
-            return AddAction(x => x.Grayscale(), "_gs");
+            return AddAction(x => x.Grayscale(), ImageManagerOperationSuffixes.Grayscale);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Hue(float degrees)
         {
-            return AddAction(x => x.Hue(degrees), $"_hu{degrees}");
+            return AddAction(x => x.Hue(degrees), $"{ImageManagerOperationSuffixes.Hue}{degrees}");
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Invert()
         {
-            return AddAction(x => x.Invert(), "_inv");
+            return AddAction(x => x.Invert(), ImageManagerOperationSuffixes.Invert);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Lightness(float amount)
         {
-            return AddAction(x => x.Lightness(amount), $"_lig{amount}");
+            return AddAction(x => x.Lightness(amount), $"{ImageManagerOperationSuffixes.Lightness}{amount}");
         }
 
         /// <inheritdoc />
         public IImageManagerOperations OilPaint()
         {
-            return AddAction(x => x.OilPaint(), "_oil");
+            return AddAction(x => x.OilPaint(), ImageManagerOperationSuffixes.OilPaint);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Opacity(float amount)
         {
-            return AddAction(x => x.Opacity(amount), $"_opa{amount}");
+            return AddAction(x => x.Opacity(amount), $"{ImageManagerOperationSuffixes.Opacity}{amount}");
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Pixelate()
         {
-            return AddAction(x => x.Pixelate(), "_pxl");
+            return AddAction(x => x.Pixelate(), ImageManagerOperationSuffixes.Pixelate);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Polaroid()
         {
-            return AddAction(x => x.Polaroid(), "_pol");
+            return AddAction(x => x.Polaroid(), ImageManagerOperationSuffixes.Polaroid);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Saturate(float amount)
         {
-            return AddAction(x => x.Saturate(amount), $"_sat{amount}");
+            return AddAction(x => x.Saturate(amount), $"{ImageManagerOperationSuffixes.Saturate}{amount}");
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Sepia()
         {
-            return AddAction(x => x.Sepia(), "_sep");
+            return AddAction(x => x.Sepia(), ImageManagerOperationSuffixes.Sepia);
         }
 
         /// <inheritdoc />
         public IImageManagerOperations Vignette()
         {
-            return AddAction(x => x.Vignette(), "_vig");
+            return AddAction(x => x.Vignette(), ImageManagerOperationSuffixes.Vignette);
         }
 
         /// <inheritdoc />
-        public async Task<ImageProperties> SaveAsync(DirectoryInfo folder, string fileName, ImageFormat format, bool addActionsSuffixes = false, string profileName = "")
+        public async Task<FileContentResult> SaveStreamAsync()
         {
             string sourceImagePath = Path.Combine(sourceFolder.FullName, sourceFileName);
-            using SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load(sourceImagePath);
-            void CombinedAction(IImageProcessingContext context)
-            {
-                foreach (Action<IImageProcessingContext> action in actions)
-                {
-                    action(context);
-                }
-            }
+            using SixLabors.ImageSharp.Image sourceImage = await SixLabors.ImageSharp.Image.LoadAsync(sourceImagePath);
+            (SixLabors.ImageSharp.Image image, _) = ApplyTransformations(sourceImage, false);
+            await using MemoryStream outStream = new();
+            await image.SaveAsync(outStream, new WebpEncoder());
+            return new FileContentResult(outStream.ToArray(), "image/webp");
+        }
 
-            if (actions.Count != 0)
-            {
-                image.Mutate(CombinedAction);
-            }
-
-            string? suffix = null;
-            if (addActionsSuffixes)
-            {
-                suffix = imagesuffix.ToString();
-            }
-
+        /// <inheritdoc />
+        public async Task<ImageProperties> SaveImageAsync(DirectoryInfo folder, string fileName, ImageFormat format, bool addActionsSuffixes = false, string profileName = "")
+        {
+            string sourceImagePath = Path.Combine(sourceFolder.FullName, sourceFileName);
+            using SixLabors.ImageSharp.Image sourceImage = await SixLabors.ImageSharp.Image.LoadAsync(sourceImagePath);
+            (SixLabors.ImageSharp.Image image, string? suffix) = ApplyTransformations(sourceImage, addActionsSuffixes);
             ImageProperties imageOutput = await image.SaveImageAsync(folder, fileName, suffix ?? string.Empty, format);
 
             // Remove original or keep the more lightweight image
@@ -227,6 +223,7 @@ namespace Pixsys.Library.Media.ImageManager
                 }
             }
 
+            // Thumbnails Creation
             if (!string.IsNullOrWhiteSpace(profileName))
             {
                 ImageProfile profile = GetProfile(profileName);
@@ -280,6 +277,36 @@ namespace Pixsys.Library.Media.ImageManager
         private ImageManagerOperations AddAction(Action<IImageProcessingContext> action, string suffix)
         {
             return new ImageManagerOperations(settings, sourceFolder, sourceFileName, new List<Action<IImageProcessingContext>>(actions) { action }, imagesuffix.Copy().Append(suffix));
+        }
+
+        /// <summary>
+        /// Applies image transformations.
+        /// </summary>
+        /// <param name="image">The source image.</param>
+        /// <param name="addActionsSuffixes">A value indicating wether the action suffixes must be added to the file name or not.</param>
+        /// <returns>The <see cref="SixLabors.ImageSharp.Image "/>.</returns>
+        private (SixLabors.ImageSharp.Image Image, string? Suffix) ApplyTransformations(SixLabors.ImageSharp.Image image, bool addActionsSuffixes = false)
+        {
+            void CombinedAction(IImageProcessingContext context)
+            {
+                foreach (Action<IImageProcessingContext> action in actions)
+                {
+                    action(context);
+                }
+            }
+
+            if (actions.Count != 0)
+            {
+                image.Mutate(CombinedAction);
+            }
+
+            string? suffix = null;
+            if (addActionsSuffixes)
+            {
+                suffix = imagesuffix.ToString();
+            }
+
+            return (image, suffix);
         }
     }
 }

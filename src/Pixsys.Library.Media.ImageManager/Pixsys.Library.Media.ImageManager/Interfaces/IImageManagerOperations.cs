@@ -4,6 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using Microsoft.AspNetCore.Mvc;
 using Pixsys.Library.Media.Common.Enums;
 using Pixsys.Library.Media.Common.Models;
 using Pixsys.Library.Media.ImageManager.Models;
@@ -171,7 +172,7 @@ namespace Pixsys.Library.Media.ImageManager.Interfaces
         IImageManagerOperations Vignette();
 
         /// <summary>
-        /// Saves the image asynchronously.
+        /// Saves the image asynchronously on disk, and creates thumbnails based on the profileName (if provided).
         /// </summary>
         /// <param name="folder">The folder.</param>
         /// <param name="fileName">Name of the file.</param>
@@ -179,7 +180,13 @@ namespace Pixsys.Library.Media.ImageManager.Interfaces
         /// <param name="addActionsSuffixes">Sets if action suffixes must be added to the file name (ex: <c>_sep_vig_200x200</c>).</param>
         /// <param name="profileName">The profile name.</param>
         /// <returns>The <see cref="ImageProperties"/>.</returns>
-        Task<ImageProperties> SaveAsync(DirectoryInfo folder, string fileName, ImageFormat format, bool addActionsSuffixes = false, string profileName = "");
+        Task<ImageProperties> SaveImageAsync(DirectoryInfo folder, string fileName, ImageFormat format, bool addActionsSuffixes = false, string profileName = "");
+
+        /// <summary>
+        /// Saves the stream asynchronous.
+        /// </summary>
+        /// <returns>The <see cref="FileContentResult"/> representing the file.</returns>
+        Task<FileContentResult> SaveStreamAsync();
 
         /// <summary>
         /// Simulates what the image location will be when the image will be saved.

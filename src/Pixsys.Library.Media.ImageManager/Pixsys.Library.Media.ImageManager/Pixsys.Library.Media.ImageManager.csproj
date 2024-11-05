@@ -5,6 +5,9 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <IsPackable>true</IsPackable>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <Deterministic>False</Deterministic>
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -16,6 +19,12 @@
     <PackageReference Include="Pixsys.Library.StyleCopAnalyzers" Version="1.2.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
   </ItemGroup>
+  <Target Name="CopyCakeReleaseGitHooks" AfterTargets="AfterBuild">
+    <ItemGroup>
+      <_CustomFiles Include=".\..\.build\CakeRelease\Git\Hooks\commit-msg" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_CustomFiles)" DestinationFolder=".\..\..\..\.git\hooks" />
+  </Target>
   <ItemGroup>
     <AdditionalFiles Include="C:\Users\Sylvain\.nuget\packages\pixsys.library.stylecopanalyzers\1.2.0\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
