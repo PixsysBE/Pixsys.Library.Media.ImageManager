@@ -91,7 +91,7 @@ First, you set if the image manager must process a server-stored image (`ForImag
 
 Then you can apply multiple manipulations (such as `resize`,`crop`,`Sepia`,...) and/or save the output.
 
-If you specify a profile name in the `SaveAsync` method, it will create resized images in the 'profile name' folder.
+If you specify a profile name in the `SaveImageAsync` method, it will create resized images in the 'profile name' folder.
 
 #### 2.2.1 Example
 
@@ -112,5 +112,5 @@ await _imageManager
     .Sepia()
     .Pixelate()
     .OilPaint()
-    .SaveAsync(new DirectoryInfo(webRootPath), "output", Pixsys.Library.Media.Common.Enums.ImageFormat.Webp, false, "test");
+    .SaveImageAsync(new DirectoryInfo(webRootPath), "output", Pixsys.Library.Media.Common.Enums.ImageFormat.Webp, false, "test");
 ```
